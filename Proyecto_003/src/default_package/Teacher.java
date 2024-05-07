@@ -1,15 +1,13 @@
 package default_package;
 
 public class Teacher {
-	int id;
 	String name;
 	String lastName;
 	int age;
 	
-	public Teacher(int id, String name, String lastName, int age) {
+	public Teacher(String name, String lastName, int age) {
 		// TODO Auto-generated constructor stub
 		this.age=age;
-		this.id=id;
 		this.lastName=lastName;
 		this.name=name;
 		
@@ -18,19 +16,10 @@ public class Teacher {
 	@Override
 	public String toString() {
 	    return "Teacher{" +
-	            "ide=" + id +
 	            ", name='" + name + '\'' +
 	            ", lastName='" + lastName + '\'' +
 	            ", age=" + age +
 	            '}';
-	}
-
-	public int getIde() {
-		return id;
-	}
-
-	public void setIde(int ide) {
-		this.id = ide;
 	}
 
 	public String getName() {

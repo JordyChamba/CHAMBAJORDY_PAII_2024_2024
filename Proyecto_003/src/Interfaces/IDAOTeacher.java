@@ -10,3 +10,4 @@ public interface IDAOTeacher {
 	public void delete();
 	Boolean createTeacher(Teacher teacher) throws SQLException;
 }
+

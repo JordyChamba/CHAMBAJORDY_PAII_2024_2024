@@ -11,6 +11,7 @@ public class Conexion {
     private final String url = "jdbc:mysql://localhost:3306/institute"; // Cambiar la URL para MySQL
     private final String usuario = "root"; // Cambiar el usuario si es necesario
     private final String password = "Usuario1125"; // Cambiar la contraseña por la tuya
+
     protected Connection connection = null;
  
     public Connection getConnection() {

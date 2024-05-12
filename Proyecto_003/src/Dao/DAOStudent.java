@@ -1,7 +1,9 @@
+
 package Dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import Interfaces.IDAOStudent;
@@ -26,13 +28,12 @@ public class DAOStudent implements IDAOStudent {
     public Boolean createStudent(Student student) throws SQLException {
         Boolean stateOp = false;
         // Preparar la sentencia SQL para insertar un estudiante
-        String sql = "INSERT INTO student (id, name, lastName, age) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO student (name, lastName, age) VALUES (?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             // Establecer los parámetros en la sentencia preparada
-            ps.setInt(1, student.getId());
-            ps.setString(2, student.getName());
-            ps.setString(3, student.getLastName());
-            ps.setInt(4, student.getAge());
+            ps.setString(1, student.getName());
+            ps.setString(2, student.getLastName());
+            ps.setInt(3, student.getAge());
             
             // Ejecutar la sentencia de inserción
             ps.executeUpdate();
@@ -53,29 +54,66 @@ public class DAOStudent implements IDAOStudent {
     }
 
 
-	@Override
-	public void create() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void read() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void read() {
+        try {
+            String sql = "SELECT * FROM student";
+            try (PreparedStatement ps = connection.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String name = rs.getString("name");
+                    String lastName = rs.getString("lastName");
+                    int age = rs.getInt("age");
 
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
+                    System.out.println("ID: " + id + ", Name: " + name + ", Last Name: " + lastName + ", Age: " + age);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void update() {
+        try {
+            String sql = "UPDATE student SET name = ?, lastName = ?, age = ? WHERE id = ?";
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, "Nuevo Nombre");
+                ps.setString(2, "Nuevo Apellido");
+                ps.setInt(3, 30);
+                ps.setInt(4, 1); // ID del estudiante a actualizar
 
-    // Implementa los demás métodos CRUD aquí
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Actualización exitosa");
+                } else {
+                    System.out.println("No se encontró el estudiante con el ID especificado");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete() {
+        try {
+            String sql = "DELETE FROM student WHERE id = ?";
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, 1); // ID del estudiante a eliminar
+
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Eliminación exitosa");
+                } else {
+                    System.out.println("No se encontró el estudiante con el ID especificado");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
